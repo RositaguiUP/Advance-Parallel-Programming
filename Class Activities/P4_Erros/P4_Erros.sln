@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "P4_Erros", "P4_Erros\P4_Erros.vcxproj", "{CD1140F3-E67C-408F-9E38-13802B0A0303}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD1140F3-E67C-408F-9E38-13802B0A0303}.Debug|x64.ActiveCfg = Debug|x64
+		{CD1140F3-E67C-408F-9E38-13802B0A0303}.Debug|x64.Build.0 = Debug|x64
+		{CD1140F3-E67C-408F-9E38-13802B0A0303}.Release|x64.ActiveCfg = Release|x64
+		{CD1140F3-E67C-408F-9E38-13802B0A0303}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5AF68E2F-94E1-4D80-A749-FF73AEEF1638}
+	EndGlobalSection
+EndGlobal
