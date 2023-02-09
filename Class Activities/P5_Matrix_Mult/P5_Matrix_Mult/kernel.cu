@@ -8,7 +8,7 @@
 
 using namespace std;
 
-__global__ void dotProduct(int* a, int* b, int* c, int dimN)
+__global__ void dotProduct(int* a, int* b, int* c, int matSize)
 {
     int tid = blockDim.x * (threadIdx.y + blockDim.y * threadIdx.z) + threadIdx.x;
     int threads_per_block = blockDim.x * blockDim.y * blockDim.z;
@@ -17,19 +17,19 @@ __global__ void dotProduct(int* a, int* b, int* c, int dimN)
     
     c[gid] = 0;
 
-    int aStart = (int)(gid / dimN)* dimN;
-    int bStart = (int)(gid % dimN);
+    int col = (int)(gid / matSize)* matSize;
+    int row = (int)(gid % matSize);
 
-    for (int i = 0; i < dimN; i++) {
-        int col = aStart + i;
-        int row = bStart + i * dimN;
+    for (int i = 0; i < matSize; i++) {
+        col += i;
+        row += i * matSize;
         c[gid] += a[col] * b[row];
     }
 }
 
-void printMatrix(int* a, int dimN) {
-    for (int i = 0; i < dimN * dimN; i++) {
-        if (i % dimN == 0) {
+void printMatrix(int* a, int matSize) {
+    for (int i = 0; i < matSize * matSize; i++) {
+        if (i % matSize == 0) {
             printf("\n");
         }
         printf("\t%d", a[i]);
@@ -40,7 +40,7 @@ int main()
 {
     const int vectorSize = 4;
     const int size = vectorSize * sizeof(int);
-    int dimN = 2;
+    int matSize = 2;
     int* dev_a, * dev_b, * dev_c;
 
     cudaMalloc((void**)&dev_a, size);
@@ -67,7 +67,7 @@ int main()
     clock_t gpu_start, gpu_stop;
 
     gpu_start = clock();
-    dotProduct << < gridDim, blockDim >> > (dev_a, dev_b, dev_c, dimN);
+    dotProduct << < gridDim, blockDim >> > (dev_a, dev_b, dev_c, matSize);
     cudaDeviceSynchronize();
 
     gpu_stop = clock();
@@ -77,13 +77,13 @@ int main()
     cudaMemcpy(phost_c, dev_c, size, cudaMemcpyDeviceToHost);
 
     printf("\n\n*****    MATRIX A    *****\n");
-    printMatrix(phost_a, dimN);
+    printMatrix(phost_a, matSize);
 
     printf("\n\n*****    MATRIX B    *****\n");
-    printMatrix(phost_b, dimN);
+    printMatrix(phost_b, matSize);
 
     printf("\n\n*****    MATRIX C    *****\n");
-    printMatrix(phost_c, dimN);
+    printMatrix(phost_c, matSize);
 
     cudaDeviceReset();
     cudaFree(dev_a);
