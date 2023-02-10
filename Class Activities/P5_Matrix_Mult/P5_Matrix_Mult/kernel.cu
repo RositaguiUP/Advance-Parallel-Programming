@@ -17,13 +17,18 @@ __global__ void dotProduct(int* a, int* b, int* c, int matSize)
     
     c[gid] = 0;
 
-    int col = (int)(gid / matSize)* matSize;
+    int col = (int)(gid / matSize) * matSize;
     int row = (int)(gid % matSize);
 
+    printf("\ngid = %d\tcol = %d\trow = %d", gid, col, row);
+
     for (int i = 0; i < matSize; i++) {
-        col += i;
-        row += i * matSize;
         c[gid] += a[col] * b[row];
+        if (gid == 0) {
+            printf("\ngid = %d\tcol = %d\trow = %d", gid, col, row);
+        }
+        col += 1;
+        row += matSize;
     }
 }
 
@@ -38,9 +43,9 @@ void printMatrix(int* a, int matSize) {
 
 int main()
 {
-    const int vectorSize = 4;
+    const int vectorSize = 9;
     const int size = vectorSize * sizeof(int);
-    int matSize = 2;
+    int matSize = 3;
     int* dev_a, * dev_b, * dev_c;
 
     cudaMalloc((void**)&dev_a, size);
@@ -61,7 +66,7 @@ int main()
     cudaMemcpy(dev_a, phost_a, size, cudaMemcpyHostToDevice);
     cudaMemcpy(dev_b, phost_b, size, cudaMemcpyHostToDevice);
 
-    dim3 blockDim(2, 2);
+    dim3 blockDim(matSize, matSize);
     dim3 gridDim(1);
 
     clock_t gpu_start, gpu_stop;
