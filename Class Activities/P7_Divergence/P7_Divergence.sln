@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "P7_Divergence", "P7_Divergence\P7_Divergence.vcxproj", "{4BFC357D-8FB2-4F87-AEA8-47CFE09C76D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BFC357D-8FB2-4F87-AEA8-47CFE09C76D8}.Debug|x64.ActiveCfg = Debug|x64
+		{4BFC357D-8FB2-4F87-AEA8-47CFE09C76D8}.Debug|x64.Build.0 = Debug|x64
+		{4BFC357D-8FB2-4F87-AEA8-47CFE09C76D8}.Release|x64.ActiveCfg = Release|x64
+		{4BFC357D-8FB2-4F87-AEA8-47CFE09C76D8}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E324CD8-7CE2-4709-B396-E2E8F6D606B9}
+	EndGlobalSection
+EndGlobal
