@@ -19,6 +19,9 @@ __global__ void convolution(int* a, int* k, int* newA, int xSize, int totSize)
 
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
+            for (int k = -1; k <= 1; k++) {
+
+            }
             int aPos = gid + i + j * xSize;
             int side = gid % xSize == 0 ? -1 : (gid + 1) % xSize == 0 ? 1 : 0;
 
@@ -28,6 +31,31 @@ __global__ void convolution(int* a, int* k, int* newA, int xSize, int totSize)
                 if (gid == 4) {
                     printf("\naPos %d\ta[aPos] %d\tk[x-i, j-i] %d\ti %d\tj %d", aPos, a[aPos], k[i + 1 + (j + 1) * 3], i, j);
                 }*/
+            }
+        }
+    }
+}
+
+__global__ void convolution3d(int* a, int* k, int* newA, int xSize, int zSize, int totSize)
+{
+    int tid = blockDim.x * (threadIdx.y + blockDim.y * threadIdx.z) + threadIdx.x;
+    int threads_per_block = blockDim.x * blockDim.y * blockDim.z;
+    int bid = gridDim.x * (blockIdx.y + gridDim.y * blockIdx.z) + blockIdx.x;
+    int gid = tid + bid * threads_per_block;
+
+    newA[gid] = 0;
+
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            for (int k = -1; k <= 1; k++) {
+                int aPos = gid + i + j * xSize + k * zSize;
+                int side = gid % xSize == 0 ? -1 : (gid + 1) % xSize == 0 ? 1 : 0;
+                int sidez = gid % zSize == 0 ? -1 : (gid + 1) % zSize == 0 ? 1 : 0;
+
+                if (aPos >= 0 && aPos < totSize && ((side == -1 && (gid + 1 + i) % xSize != 0) || (side == 1 && (gid + i) % xSize != 0) || side == 0)
+                    && ((sidez == -1 && (gid + 1 + k) % zSize != 0) || (sidez == 1 && (gid + k) % zSize != 0) || sidez == 0)) {
+                    newA[gid] += a[aPos] * k[i + 1 + (j + 1) * 3];
+                }
             }
         }
     }
